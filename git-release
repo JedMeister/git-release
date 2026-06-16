@@ -1,7 +1,57 @@
 #!/usr/bin/python3
 
+import argparse
+import os
+
+ENV_VARS = [
+        "GITHUB_USER",
+        "GITHUB_USER_TOKEN",
+        "GR_USER",
+        "GR_USER_TOKEN",
+        "NO_TAGS",
+        "NO_RELEASES",
+        "GR_STABLE_ONLY",
+        ]
+
+URL = {
+        "github": "https://api.github.com/repos",
+        "codeburg": "https://codeberg.org/api/v1/repos",
+        "custom": "",
+        }
+
+
+def get_env_vars() -> dict[str, str]:
+    env_vars = {}
+    for var in EN_VARS:
+        env_vars[var] = os.getenv(var, "")
+    return env_vars
+
+# example codeburg curl (unauthenticated)
+# curl -X 'GET'
+#       'https://codeberg.org/api/v1/repos/forgejo/forgejo/releases'
+#       -H 'accept: application/json'
+#
+# gh_releases example
+# curl -u "$GITHUB_USER:$GITHUB_USER_TOKEN"
+#      -b /tmp/cookies.txt
+#      -c /tmp/cookies.txt
+#      -s "${url}?page=${page}&per_page=100"
+
+
 def main():
-    print("this is the main func")
+    env_vars = get_env_vars()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("repo",
+                        help="repo - in form <org|user>/<repo> - e.g."
+                             " turnkeylinux/inithooks")
+    parser.add_argument("-u", "--user",
+                        help="username for github authentication (optional"
+                             " for public repos)")
+    parser.add_argument("-t", "--token",    
+                        help=""
+
+    args = parser.parse_args()
+
 
 
 if __name__ == "__main__":
